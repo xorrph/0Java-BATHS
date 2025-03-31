@@ -22,31 +22,34 @@ public abstract class Ship
     int cannons;
     String type;
     boolean ifDocPin;
-    boolean blockade;
-    boolean skirmish;
+    boolean blockade = false;
+    boolean skirmish = false;
     boolean battle;
 
 
-    public Ship(String nameIn, String capIn, int bsIn, int dIn, int mIn, int cIn, boolean dcIn)
+    public Ship(String nameIn, String capIn, int dIn, int mIn, int cIn, boolean dcIn)
     {
+        this.battle = true;
         this.commissionFee = setFee();
         this.name = nameIn;
         this.Captain = capIn;
-        this.battleSkill = bsIn;
+        this.decks = dIn;
         this.marines = mIn;
         this.cannons = cIn;
         this.ifDocPin = dcIn;
-        this.battle = true;
         this.state = ShipState.RESERVE;
         setNavyRules();
         
         
     }
+    
+    // subclasses to override
 
     abstract int setFee();
     
     abstract void setNavyRules();
     
+    // getter and setter methods
     
     public ShipState getState() {
         return state;
@@ -88,31 +91,27 @@ public abstract class Ship
         return type;
     }
    
-    public void commissionShip(int warchest) //Squadron squad
-    {
-        warchest -= this.commissionFee;
-        //squad.add(this)
-        this.state = this.state.ACTIVE;
-    }
-    
-    public void restoreShip()
+    public void commissionShip() //Squadron squad
     {
         this.state = this.state.ACTIVE;
     }
     
-    public void decommissionShip(int warchest) //Squadron squad
+    public void restoreShip()//Used by BA to get resting ships to be active
     {
-        warchest += this.commissionFee / 2;
-        //squad.remove(this)
+        this.state = this.state.ACTIVE;
+    }
+    
+    public void decommissionShip()
+    {
         this.state = this.state.RESERVE;
     }
     
-    public void shipRest()
+    public void shipRest()//Set state to rest after a battle
     {
         this.state = this.state.RESTING;
     }
     
-    public void shipSunk()
+    public void shipSunk()//Can not be used anymore
     {
         this.state = this.state.SUNK;
     }

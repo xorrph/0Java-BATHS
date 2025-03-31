@@ -8,28 +8,28 @@ package wars;
  *
  * @author nagli
  */
-public class Frigate extends Ship
+public class ManOWar extends Ship
 {
-    public Frigate(String nameIn, String capIn, int bsIn, int dIn, int mIn, int cIn, boolean dcIn)
+    public ManOWar(String nameIn, String capIn, int bsIn, int dIn, int mIn, int cIn, boolean dcIn)
     {
         super(nameIn, capIn, dIn, mIn, cIn, dcIn);
-        this.type = "Frigate";
+        this.type = "ManOWar";
         this.battleSkill = bsIn;
     }
     
     @Override
     public void setNavyRules()
     {
-        if(this.ifDocPin)// pinnance checks
-        {
-            this.blockade = true;
-        }
-        this.skirmish = true;
+        this.blockade = true;   
     }
     
     @Override
     public int setFee()
     {
-        return this.cannons * 10; // every cannon costs £10
+        if (this.decks <= 2)
+        {
+            return 300;
+        }
+        return 500; //cost is 500 unless only having 2 decks (might change to ==)
     }
 }
