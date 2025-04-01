@@ -12,6 +12,7 @@ package wars;
 
 public abstract class Ship 
 {
+
     ShipState state;
     int commissionFee;
     String name;
@@ -116,7 +117,10 @@ public abstract class Ship
         this.state = this.state.SUNK;
     }
     
-    
+    @Override
+    public String toString() {
+        return "Ship{" + "state=" + state + ", commissionFee=" + commissionFee + ", name=" + name + ", Captain=" + Captain + ", battleSkill=" + battleSkill + ", decks=" + decks + ", marines=" + marines + ", cannons=" + cannons + ", type=" + type + ", ifDocPin=" + ifDocPin + ", blockade=" + blockade + ", skirmish=" + skirmish + ", battle=" + battle + '}';
+    }
 
     
 

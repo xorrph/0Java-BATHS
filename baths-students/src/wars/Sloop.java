@@ -13,7 +13,7 @@ public class Sloop extends Ship
     public Sloop(String nameIn, String capIn, int dIn, int mIn, int cIn, boolean dcIn)
     {
         super(nameIn, capIn, dIn, mIn, cIn, dcIn);
-        this.type = "ManOWar";
+        this.type = "Sloop";
         this.battleSkill = 5;
     }
     

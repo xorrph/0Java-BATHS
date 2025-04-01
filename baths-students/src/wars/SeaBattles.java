@@ -15,6 +15,7 @@ public class SeaBattles implements BATHS
     // may have one HashMap and select on stat
 
     private String admiral;
+    private String filename;
     private double warChest;
 
 
@@ -24,8 +25,8 @@ public class SeaBattles implements BATHS
      */  
     public SeaBattles(String adm)
     {
-      
-        
+       this.admiral = adm;
+       this.filename = "encountersAM.txt";
        setupShips();
        setupEncounters();
     }

@@ -12,17 +12,30 @@ public class Fleet
 {
     ArrayList<Ship> squadron;
     ArrayList<Ship> reserve;
+    ArrayList<Ship> managingFleet;
      //blueAdmiral BA
-    boolean manageSR;
      
     public Fleet()//baIn
     {
-        ArrayList<Ship> squadron = new ArrayList<>();
-        ArrayList<Ship> reserve = new ArrayList<>();
+        this.squadron = new ArrayList<Ship>();
+        this.reserve = new ArrayList<Ship>();
+        this.managingFleet = squadron;
         //blueAdmiral BA = baIn;
-        boolean manageSR = true;
         
     }
+    
+    public void setFleetToManage(boolean Res)
+    {
+        if(Res)
+        {
+            this.managingFleet = this.reserve;
+        }
+        else
+        {
+            this.managingFleet = this.squadron;
+        }
+    }        
+    
     
     public void addShip(Ship s)
     {
@@ -50,9 +63,28 @@ public class Fleet
         s.restoreShip();
     }
     
-    public void findSquadronShip(String name)
+    public Ship findShip(String name)
     {
-        
+        for (Ship s: this.managingFleet)
+        {
+            if(s.getName().equals(name))
+            {
+                return s;
+            }
+        }
+        return null;
     }
+    
+    public String showAllShips()
+    {
+        String str = "";
+        for (Ship s: this.managingFleet)
+        {
+                str = str + s.toString()+ "\n";
+        }
+        return str;
+    }
+    
+    
 
 }
