@@ -10,9 +10,9 @@ import java.util.ArrayList;
  */
 public class Fleet 
 {
-    ArrayList<Ship> squadron;
-    ArrayList<Ship> reserve;
-    ArrayList<Ship> managingFleet;
+    private ArrayList<Ship> squadron;
+    private ArrayList<Ship> reserve;
+    private ArrayList<Ship> managingFleet;
      //blueAdmiral BA
      
     public Fleet()//baIn

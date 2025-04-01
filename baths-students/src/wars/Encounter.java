@@ -10,13 +10,13 @@ package wars;
  */
 public class Encounter
 {
-    int encounterNo;
-    String type;
-    String location;
-    int reqSkill;
-    int prizeMoney;
+    private int encounterNo;
+    private EncounterType type;
+    private String location;
+    private int reqSkill;
+    private int prizeMoney;
 
-    public Encounter(int encounterNo, String type, String location, int reqSkill, int prizeMoney)
+    public Encounter(int encounterNo, EncounterType type, String location, int reqSkill, int prizeMoney)
     {
         this.encounterNo = encounterNo;
         this.type = type;
@@ -30,7 +30,7 @@ public class Encounter
         return encounterNo;
     }
 
-    public String getType()
+    public EncounterType getType()
     {
         return type;
     }

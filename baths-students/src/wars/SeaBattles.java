@@ -39,7 +39,7 @@ public class SeaBattles implements BATHS
     public SeaBattles(String admir, String filename)  //Task 3
     {
       
-        
+       this.filename = filename;
        setupShips();
        // setupEncounters();
        // uncomment for testing Task 
@@ -242,10 +242,19 @@ public class SeaBattles implements BATHS
      
     private void setupEncounters()
     {
-  
+        Encounter e1 = new Encounter(1,EncounterType.BATTLE,"Trafalgar",3,300);
+        Encounter e2 = new Encounter(2,EncounterType.SKIRMISH,"Belle Isle",3,120);
+        Encounter e3 = new Encounter(3,EncounterType.BLOCKADE,"Brest",3,150);
+        Encounter e4 = new Encounter(4,EncounterType.BATTLE,"St Malo",9,200);
+        Encounter e5 = new Encounter(5,EncounterType.BLOCKADE,"Dieppe",7,90);
+        Encounter e6 = new Encounter(6,EncounterType.SKIRMISH,"Jersey",8,45);
+        Encounter e7 = new Encounter(7,EncounterType.BLOCKADE,"Nantes",6,130);
+        Encounter e8 = new Encounter(8,EncounterType.BATTLE,"Finisterre",4,100);
+        Encounter e9 = new Encounter(9,EncounterType.SKIRMISH,"Biscay",5,200);
+        Encounter e10 = new Encounter(10,EncounterType.BATTLE,"Cadiz",1,250);
+        firstSeaLord FSL = new firstSeaLord(new ArrayList<Encounter>(List.of(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)));
     }
-        
-    // Useful private methods to "get" objects from collections/maps
+// Useful private methods to "get" objects from collections/maps
 
     //*******************************************************************************
     //*******************************************************************************

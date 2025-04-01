@@ -10,11 +10,16 @@ import java.util.ArrayList;
  */
 public class firstSeaLord
 {
-    ArrayList<Encounter> encounters;
+    private ArrayList<Encounter> encounters;
 
     public firstSeaLord()
     {
         this.encounters = new ArrayList<Encounter>();
+    }
+    
+    public firstSeaLord(ArrayList<Encounter> es)
+    {
+        this.encounters = es;
     }
     
     public void encounterFound(Encounter e)
