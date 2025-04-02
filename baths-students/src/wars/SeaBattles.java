@@ -16,6 +16,8 @@ public class SeaBattles implements BATHS
 
     private String admiral;
     private String filename;
+    private Fleet fleet;
+    private ArrayList<Ship> sunkShips;
     private double warChest;
 
 
@@ -84,8 +86,12 @@ public class SeaBattles implements BATHS
      * @return a String representation of all ships in the reserve fleet
      **/
     public String getReserveFleet()
-    {   //assumes reserves is a Hashmap
-       
+    {   
+        this.fleet.setFleetToManage(true);
+        if (this.fleet.getSize() != 0)
+        {
+            return this.fleet.toString();
+        }
         return "No ships";
     }
     
@@ -95,9 +101,13 @@ public class SeaBattles implements BATHS
      **/
     public String getSquadron()
     {
-   
+        this.fleet.setFleetToManage(false);
+        if (this.fleet.getSize() != 0)
+        {
+            return this.fleet.toString();
+        }
         
-        return "No ships";
+        return "No ships commissioned";
     }
     
     /**Returns a String representation of the ships sunk (or "no ships sunk yet")
@@ -115,7 +125,6 @@ public class SeaBattles implements BATHS
      **/
     public String getAllShips()
     {
-  
         
         return "No ships";
     }
@@ -236,8 +245,18 @@ public class SeaBattles implements BATHS
     //*******************************************************************************
      private void setupShips()
      {
-       
-
+       ManOWar Victory = new ManOWar("Victory","Alan Aikin",3, 3, 30, 0, false); 
+       Frigate Sophie = new Frigate("Sophie","Beg Baggins",8,0,0,16,true);
+       ManOWar Endeavour = new ManOWar("Endeavour","Col Cannon",4,2,20,0,false);
+       Sloop Arrow = new Sloop("Arrow","Dan Dare",150,0,0,0,true);
+       ManOWar Belerophon = new ManOWar("Belerophon","Ed Evans",8,3,50,0,false);
+       Frigate Surprise = new Frigate("Surprise","Fred Fox",6,0,0,10,false);
+       Frigate Jupiter = new Frigate("Jupiter","Gil Gamage",7,0,0,20,false);
+       Sloop Paris = new Sloop("Paris","Hal Henry",200,0,0,0,true);
+       Sloop Beast = new Sloop("Beast","Ian Idle",400,0,0,0,false);
+       Sloop Athena = new Sloop("Athena","John Jones",100,0,0,0,true);
+       Fleet sq = new Fleet(new ArrayList<Ship>(List.of(Victory,Sophie,Endeavour,Arrow,Belerophon,Surprise,Jupiter,Paris,Beast,Athena)));
+       this.fleet = sq;
      }
      
     private void setupEncounters()
@@ -252,7 +271,7 @@ public class SeaBattles implements BATHS
         Encounter e8 = new Encounter(8,EncounterType.BATTLE,"Finisterre",4,100);
         Encounter e9 = new Encounter(9,EncounterType.SKIRMISH,"Biscay",5,200);
         Encounter e10 = new Encounter(10,EncounterType.BATTLE,"Cadiz",1,250);
-        firstSeaLord FSL = new firstSeaLord(new ArrayList<Encounter>(List.of(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)));
+        Encouters encountersList = new Encouters(new ArrayList<Encounter>(List.of(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)));
     }
 // Useful private methods to "get" objects from collections/maps
 

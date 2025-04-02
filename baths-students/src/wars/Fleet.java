@@ -13,15 +13,28 @@ public class Fleet
     private ArrayList<Ship> squadron;
     private ArrayList<Ship> reserve;
     private ArrayList<Ship> managingFleet;
+    private int size;
      //blueAdmiral BA
      
     public Fleet()//baIn
     {
         this.squadron = new ArrayList<Ship>();
         this.reserve = new ArrayList<Ship>();
-        this.managingFleet = squadron;
+        this.managingFleet = this.squadron;
         //blueAdmiral BA = baIn;
         
+    }
+    
+    public Fleet(ArrayList<Ship> rs)
+    {
+        this.squadron = new ArrayList<Ship>();;
+        this.reserve = rs;
+        this.managingFleet = this.squadron;
+    }
+    
+    public int getSize()
+    {
+        return this.managingFleet.size();
     }
     
     public void setFleetToManage(boolean Res)
@@ -75,7 +88,7 @@ public class Fleet
         return null;
     }
     
-    public String showAllShips()
+    public String toString()
     {
         String str = "";
         for (Ship s: this.managingFleet)

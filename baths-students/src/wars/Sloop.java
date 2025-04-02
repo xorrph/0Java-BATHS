@@ -10,11 +10,12 @@ package wars;
  */
 public class Sloop extends Ship
 {
-    public Sloop(String nameIn, String capIn, int dIn, int mIn, int cIn, boolean dcIn)
+    public Sloop(String nameIn, String capIn,int cf, int dIn, int mIn, int cIn, boolean dcIn)
     {
         super(nameIn, capIn, dIn, mIn, cIn, dcIn);
         this.type = "Sloop";
         this.battleSkill = 5;
+        this.commissionFee = cf;
     }
     
     @Override
@@ -29,9 +30,4 @@ public class Sloop extends Ship
         return this.commissionFee ; //sloops set their own fees
     }
     
-    public void setFee(int fee)//seperate Method that calls override method to set the commission fee
-    {
-        this.commissionFee = fee;
-        setFee();
-    }
 }

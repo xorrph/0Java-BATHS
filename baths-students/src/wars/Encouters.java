@@ -8,16 +8,16 @@ import java.util.ArrayList;
  *
  * @author nagli
  */
-public class firstSeaLord
+public class Encouters
 {
     private ArrayList<Encounter> encounters;
 
-    public firstSeaLord()
+    public Encouters()
     {
         this.encounters = new ArrayList<Encounter>();
     }
     
-    public firstSeaLord(ArrayList<Encounter> es)
+    public Encouters(ArrayList<Encounter> es)
     {
         this.encounters = es;
     }
