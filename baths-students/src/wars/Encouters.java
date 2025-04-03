@@ -32,7 +32,7 @@ public class Encouters
         this.encounters.remove(e);
     }
     
-    public Encounter findShip(int id)
+    public Encounter findEncounter(int id)
     {
         for (Encounter e: this.encounters)
         {
@@ -44,7 +44,7 @@ public class Encouters
         return null;
     }
     
-    public String showAllShips()
+    public String showAllEncounters()
     {
         String str = "";
         for (Encounter e: this.encounters)

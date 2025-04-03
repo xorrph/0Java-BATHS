@@ -17,7 +17,6 @@ public class SeaBattles implements BATHS
     private String admiral;
     private String filename;
     private Fleet fleet;
-    private ArrayList<Ship> sunkShips;
     private double warChest;
 
 
@@ -28,7 +27,6 @@ public class SeaBattles implements BATHS
     public SeaBattles(String adm)
     {
        this.admiral = adm;
-       this.filename = "encountersAM.txt";
        setupShips();
        setupEncounters();
     }
@@ -70,6 +68,10 @@ public class SeaBattles implements BATHS
      */
     public boolean isDefeated()
     {
+        if (0 <= this.warChest && this.fleet.squadron().size() ==0)
+        {
+            return true;
+        }
         return false;
     }
     
@@ -78,7 +80,7 @@ public class SeaBattles implements BATHS
      */
     public double getWarChest()
     {
-        return 0;
+        return this.warChest;
     }
     
     
@@ -87,12 +89,16 @@ public class SeaBattles implements BATHS
      **/
     public String getReserveFleet()
     {   
-        this.fleet.setFleetToManage(true);
-        if (this.fleet.getSize() != 0)
+        String str = "";
+        for (Ship s: this.fleet.reserve())
         {
-            return this.fleet.toString();
+                str = str + s.toString()+ "\n";
         }
-        return "No ships";
+        if (this.fleet.reserve().size() > 0)
+        {
+            return str;
+        }
+        return "No ships in reserve";
     }
     
     /**Returns a String representation of the ships in the admiral's squadron
@@ -101,12 +107,15 @@ public class SeaBattles implements BATHS
      **/
     public String getSquadron()
     {
-        this.fleet.setFleetToManage(false);
-        if (this.fleet.getSize() != 0)
+        String str = "";
+        for (Ship s: this.fleet.squadron())
         {
-            return this.fleet.toString();
+                str = str + s.toString()+ "\n";
         }
-        
+        if (this.fleet.squadron().size() > 0)
+        {
+            return str;
+        }
         return "No ships commissioned";
     }
     
@@ -115,8 +124,16 @@ public class SeaBattles implements BATHS
      **/
     public String getSunkShips()
     {
-       
-        return "No ships";
+        String str = "";
+        for (Ship s: this.fleet.sunkShips())
+        {
+                str = str + s.toString()+ "\n";
+        }
+        if (this.fleet.sunkShips().size() > 0)
+        {
+            return str;
+        }
+        return "No Ships sunk yet";
     }
     
     /**Returns a String representation of the all ships in the game
@@ -125,8 +142,7 @@ public class SeaBattles implements BATHS
      **/
     public String getAllShips()
     {
-        
-        return "No ships";
+        return this.fleet.toString();
     }
     
     
@@ -135,8 +151,13 @@ public class SeaBattles implements BATHS
      **/
     public String getShipDetails(String nme)
     {
- 
         
+        Ship s = this.fleet.findShip(nme);
+        
+        if(s != null)
+        {
+            return s.toString();
+        }
         
         return "\nNo such ship";
     }     
@@ -152,8 +173,21 @@ public class SeaBattles implements BATHS
      **/        
     public String commissionShip(String nme)
     {
-        
-        return "- Ship not found";
+        Ship s = this.fleet.findShip(nme); 
+        if(s != null) // In reserve to be commissioned
+        {
+            if(this.warChest - s.getCommissionFee() >= 0) // enough money check
+            {
+                this.fleet.commission(s);// commission the ship to squadron
+                return "Ship comissioned";
+            }
+            return "Not enough money";
+        }
+        else if(this.fleet.findShip(nme) == null)//check if not in reserve but still in the list
+        {
+            return "Not available"; // not within reserve for whatever reason 
+        }
+        return "Not found";
     }
         
     /** Returns true if the ship with the name is in the admiral's squadron, false otherwise.
@@ -162,6 +196,10 @@ public class SeaBattles implements BATHS
      **/
     public boolean isInSquadron(String nme)
     {
+        if(this.fleet.findShip(nme,this.fleet.squadron()) != null)
+        {
+            return true;
+        }
         return false;
     }
     
@@ -172,6 +210,11 @@ public class SeaBattles implements BATHS
      **/
     public boolean decommissionShip(String nme)
     {
+        if(this.isInSquadron(nme) == true)
+        {
+            this.fleet.decommission(this.fleet.findShip(nme));
+            return true;
+        }
         return false;
     }
     
@@ -181,7 +224,10 @@ public class SeaBattles implements BATHS
      */
     public void restoreShip(String ref)
     {
-  
+        if(this.isInSquadron(ref) == true)
+        {
+            this.fleet.restoreRestingShip(this.fleet.findShip(ref));
+        }
         
     }
     
@@ -255,8 +301,8 @@ public class SeaBattles implements BATHS
        Sloop Paris = new Sloop("Paris","Hal Henry",200,0,0,0,true);
        Sloop Beast = new Sloop("Beast","Ian Idle",400,0,0,0,false);
        Sloop Athena = new Sloop("Athena","John Jones",100,0,0,0,true);
-       Fleet sq = new Fleet(new ArrayList<Ship>(List.of(Victory,Sophie,Endeavour,Arrow,Belerophon,Surprise,Jupiter,Paris,Beast,Athena)));
-       this.fleet = sq;
+       Fleet ss = new Fleet(new ArrayList<Ship>(List.of(Victory,Sophie,Endeavour,Arrow,Belerophon,Surprise,Jupiter,Paris,Beast,Athena)));
+       this.fleet = ss;
      }
      
     private void setupEncounters()

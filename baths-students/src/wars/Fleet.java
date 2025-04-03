@@ -12,58 +12,53 @@ public class Fleet
 {
     private ArrayList<Ship> squadron;
     private ArrayList<Ship> reserve;
-    private ArrayList<Ship> managingFleet;
+    private FilteredList<Ship> ships;
     private int size;
-     //blueAdmiral BA
      
     public Fleet()//baIn
     {
-        this.squadron = new ArrayList<Ship>();
-        this.reserve = new ArrayList<Ship>();
-        this.managingFleet = this.squadron;
-        //blueAdmiral BA = baIn;
-        
+        this.ships =  new FilteredList<Ship>();
     }
     
-    public Fleet(ArrayList<Ship> rs)
+    public Fleet(ArrayList<Ship> ss)
     {
-        this.squadron = new ArrayList<Ship>();;
-        this.reserve = rs;
-        this.managingFleet = this.squadron;
+        this.ships =  new FilteredList<Ship>(ss);
     }
     
-    public int getSize()
+    public ArrayList<Ship> allShips()
     {
-        return this.managingFleet.size();
+        return ships.getAll();
     }
     
-    public void setFleetToManage(boolean Res)
+    public ArrayList<Ship> sunkShips()
     {
-        if(Res)
-        {
-            this.managingFleet = this.reserve;
-        }
-        else
-        {
-            this.managingFleet = this.squadron;
-        }
-    }        
+        return ships.getFiltered(ship -> ship.getState() == ShipState.SUNK);
+    }
     
-    
-    public void addShip(Ship s)
+    public ArrayList<Ship> reserve()
     {
-        this.reserve.remove(s);
-        this.squadron.add(s);
+        return ships.getFiltered(ship -> ship.getState() == ShipState.RESERVE);
+    }
+      
+    
+    public ArrayList<Ship> squadron()
+    {
+        return ships.getFiltered(ship -> ship.getState() == ShipState.ACTIVE || ship.getState() == ShipState.RESTING);
+    }
+    
+    public void commission(Ship s)
+    {
+        //this.reserve().remove(s);
+        //this.squadron().add(s);
         s.commissionShip();
-        //BA.updateChest(s.getComissionFee() * -1)
     }
     
     public void decommission(Ship s)
     {
-        this.squadron.remove(s);
+        //this.squadron().remove(s);
         s.decommissionShip();
-        this.reserve.add(s);
-        //BA.updateChest(s.getComissionFee()/ 2)
+        //this.reserve().add(s);
+
     }
     
     public void restShip(Ship s)
@@ -78,7 +73,19 @@ public class Fleet
     
     public Ship findShip(String name)
     {
-        for (Ship s: this.managingFleet)
+        for (Ship s: this.ships.getAll())
+        {
+            if(s.getName().equals(name))
+            {
+                return s;
+            }
+        }
+        return null;
+    }
+    
+    public Ship findShip(String name, ArrayList<Ship> managingFleet)
+    {
+        for (Ship s: managingFleet)
         {
             if(s.getName().equals(name))
             {
@@ -91,7 +98,7 @@ public class Fleet
     public String toString()
     {
         String str = "";
-        for (Ship s: this.managingFleet)
+        for (Ship s: this.ships.getAll())
         {
                 str = str + s.toString()+ "\n";
         }
