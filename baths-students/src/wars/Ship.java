@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wars;
-
+import java.util.HashMap;
 
 /**
  *
@@ -26,6 +26,7 @@ public abstract class Ship
     boolean blockade = false;
     boolean skirmish = false;
     boolean battle;
+    HashMap<EncounterType,Boolean> navyRules;
 
 
     public Ship(String nameIn, String capIn, int dIn, int mIn, int cIn, boolean dcIn)
@@ -40,6 +41,9 @@ public abstract class Ship
         this.ifDocPin = dcIn;
         this.state = ShipState.RESERVE;
         setNavyRules();
+        this.navyRules.put(EncounterType.BATTLE, battle);
+        this.navyRules.put(EncounterType.BLOCKADE, blockade);
+        this.navyRules.put(EncounterType.SKIRMISH, skirmish);
         
         
     }
@@ -90,6 +94,11 @@ public abstract class Ship
 
     public String getType() {
         return type;
+    }
+    
+    public boolean canFight(EncounterType et)
+    {
+        return this.navyRules.get(et);
     }
    
     public void commissionShip() //Squadron squad

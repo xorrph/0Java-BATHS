@@ -8,16 +8,16 @@ import java.util.ArrayList;
  *
  * @author nagli
  */
-public class Encouters
+public class Encounters
 {
     private ArrayList<Encounter> encounters;
 
-    public Encouters()
+    public Encounters()
     {
         this.encounters = new ArrayList<Encounter>();
     }
     
-    public Encouters(ArrayList<Encounter> es)
+    public Encounters(ArrayList<Encounter> es)
     {
         this.encounters = es;
     }
@@ -25,6 +25,11 @@ public class Encouters
     public void encounterFound(Encounter e)
     {
         this.encounters.add(e);
+    }
+        
+    public int getSize()
+    {
+        return this.encounters.size();
     }
     
     public void encounterFinished(Encounter e)

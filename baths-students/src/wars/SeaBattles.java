@@ -17,6 +17,7 @@ public class SeaBattles implements BATHS
     private String admiral;
     private String filename;
     private Fleet fleet;
+    private Encounters enc;
     private double warChest;
 
 
@@ -238,6 +239,11 @@ public class SeaBattles implements BATHS
      **/
      public boolean isEncounter(int num)
      {
+         Encounter e = this.enc.findEncounter(num);
+         if (e != null)
+         {
+             return true;
+         }
          return false;
      }
      
@@ -260,9 +266,36 @@ public class SeaBattles implements BATHS
       */ 
     public String fightEncounter(int encNo)
     {
+       if (this.isEncounter(encNo))
+       {
+           Encounter e = enc.findEncounter(encNo);
+           for(Ship s: this.fleet.squadron())
+           {
+               if(s.canFight(e.getType()))
+               {
+                   if(s.getBattleSkill() > e.getReqSkill())
+                   {
+                       this.warChest += e.getPrizeMoney();
+                       s.shipRest();
+                       return "Encounter won by" + s.getName() + "led by " + s.getCaptain() +"\n" + "Warchest is now: " + this.warChest;
+                   }
+                   else
+                   {
+                       this.warChest -= e.getPrizeMoney();
+                       s.shipSunk();
+                       return "Encounter lost on battle skill and" + s.getName() + "sunk"+"\n" + "Warchest is now: " + this.warChest;
+                   }
+               }
+           }
+           if(this.isDefeated() == true)
+           {
+               return "You have been defeated" +  "\n" + "Warchest is now: " + this.warChest;
+           }
+           this.warChest -= e.getPrizeMoney();
+           return "No ship available to fight encounter" + "\n" + "Warchest is now: " + this.warChest;
+       }
        
-            
-        return "Not done";
+       return "No such encounter";
     }
 
     /** Provides a String representation of an encounter given by 
@@ -273,7 +306,11 @@ public class SeaBattles implements BATHS
      **/
     public String getEncounter(int num)
     {
-        
+        if (this.isEncounter(num))
+        {
+            Encounter e = enc.findEncounter(num);
+            return e.toString();
+        }
         return "\nNo such encounter";
     }
     
@@ -282,7 +319,10 @@ public class SeaBattles implements BATHS
      **/
     public String getAllEncounters()
     {
- 
+        if(enc.getSize() > 0)
+        {
+            enc.showAllEncounters();
+        }
         return "No encounters";
     }
     
@@ -317,7 +357,8 @@ public class SeaBattles implements BATHS
         Encounter e8 = new Encounter(8,EncounterType.BATTLE,"Finisterre",4,100);
         Encounter e9 = new Encounter(9,EncounterType.SKIRMISH,"Biscay",5,200);
         Encounter e10 = new Encounter(10,EncounterType.BATTLE,"Cadiz",1,250);
-        Encouters encountersList = new Encouters(new ArrayList<Encounter>(List.of(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)));
+        Encounters encountersList = new Encounters(new ArrayList<Encounter>(List.of(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)));
+        this.enc = encountersList;
     }
 // Useful private methods to "get" objects from collections/maps
 
