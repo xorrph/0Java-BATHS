@@ -357,8 +357,20 @@ public class SeaBattles implements BATHS
         Encounter e8 = new Encounter(8,EncounterType.BATTLE,"Finisterre",4,100);
         Encounter e9 = new Encounter(9,EncounterType.SKIRMISH,"Biscay",5,200);
         Encounter e10 = new Encounter(10,EncounterType.BATTLE,"Cadiz",1,250);
-        Encounters encountersList = new Encounters(new ArrayList<Encounter>(List.of(e1,e2,e3,e4,e5,e6,e7,e8,e9,e10)));
-        this.enc = encountersList;
+        HashMap<Integer, Encounter> encountersMap = new HashMap<>(Map.ofEntries(
+            Map.entry(1, e1),
+            Map.entry(2, e2),
+            Map.entry(3, e3),
+            Map.entry(4, e4),
+            Map.entry(5, e5),
+            Map.entry(6, e6),
+            Map.entry(7, e7),
+            Map.entry(8, e8),
+            Map.entry(9, e9),
+            Map.entry(10, e10)
+        ));
+        Encounters e = new Encounters(encountersMap);
+        this.enc = e;
     }
 // Useful private methods to "get" objects from collections/maps
 
