@@ -57,8 +57,10 @@ public class SeaBattles implements BATHS
      **/
     public String toString()
     {
-        
-        return "null";
+        String str = "Admiral " + this.admiral + "\nState of Warchest: " + this.warChest + "\n";
+        str += "Is defeated " + this.isDefeated() + "\n";
+        str += this.getSquadron() + "\n" +this.getReserveFleet();
+        return str;
     }
     
     
@@ -93,7 +95,7 @@ public class SeaBattles implements BATHS
         String str = "";
         for (Ship s: this.fleet.reserve())
         {
-                str = str + s.toString()+ "\n";
+                str = str +  "Reserve Ships\n" + s.toString()+ "\n";
         }
         if (this.fleet.reserve().size() > 0)
         {
@@ -111,7 +113,7 @@ public class SeaBattles implements BATHS
         String str = "";
         for (Ship s: this.fleet.squadron())
         {
-                str = str + s.toString()+ "\n";
+                str = str + "Squadron Ships\n" + s.toString()+ "\n";
         }
         if (this.fleet.squadron().size() > 0)
         {
@@ -128,7 +130,7 @@ public class SeaBattles implements BATHS
         String str = "";
         for (Ship s: this.fleet.sunkShips())
         {
-                str = str + s.toString()+ "\n";
+                str = str + "Sunk Ships\n" + s.toString()+ "\n";
         }
         if (this.fleet.sunkShips().size() > 0)
         {
@@ -321,7 +323,7 @@ public class SeaBattles implements BATHS
     {
         if(enc.getSize() > 0)
         {
-            enc.showAllEncounters();
+            enc.toString();
         }
         return "No encounters";
     }
