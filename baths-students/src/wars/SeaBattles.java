@@ -56,8 +56,13 @@ public class SeaBattles implements BATHS
      **/
     public String toString()
     {
+        String admState = "Not ok";
+        if(this.isDefeated() == false)
+        {
+            admState = "Is OK";
+        }
         String str = "Admiral " + this.admiral + "\nState of Warchest: " + this.warChest + "\n";
-        str += "Is defeated " + this.isDefeated() + "\n";
+        str += "Admiral state: " + admState + "\n";
         str += this.getSquadron() + "\n" +this.getReserveFleet();
         return str;
     }
@@ -70,7 +75,7 @@ public class SeaBattles implements BATHS
      */
     public boolean isDefeated()
     {
-        if (0 <= this.warChest && this.fleet.squadron().size() ==0)
+        if (this.warChest <=0 && this.fleet.squadron().size() ==0)
         {
             return true;
         }
