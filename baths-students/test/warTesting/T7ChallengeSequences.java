@@ -129,6 +129,10 @@ public class T7ChallengeSequences {
 
 
     
-// Add your own tests    
+// Add your own tests
+    @Test
+    public void {
+    
+}
 
 }
