@@ -35,6 +35,10 @@ public class Fleet
         return ships.getFiltered(ship -> ship.getState() == ShipState.SUNK);
     }
     
+    /**returns an ArrayList of all Ships in reserve state
+    * @returns an ArrayList of all Ships in reserve state
+    */
+
     public ArrayList<Ship> reserve()
     {
         return ships.getFiltered(ship -> ship.getState() == ShipState.RESERVE);
