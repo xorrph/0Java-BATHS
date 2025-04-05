@@ -98,11 +98,12 @@ public abstract class Ship
         this.cannons = cIn;
         this.ifDocPin = dcIn;
         this.state = ShipState.RESERVE;
-        setNavyRules();
+        this.setNavyRules();
         this.navyRules = new HashMap<EncounterType,Boolean>();
         this.navyRules.put(EncounterType.BATTLE, battle);
         this.navyRules.put(EncounterType.BLOCKADE, blockade);
         this.navyRules.put(EncounterType.SKIRMISH, skirmish);
+        this.commissionFee = this.setFee();
         
         
     }

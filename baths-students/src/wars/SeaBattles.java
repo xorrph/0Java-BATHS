@@ -180,17 +180,18 @@ public class SeaBattles implements BATHS
      **/        
     public String commissionShip(String nme)
     {
-        Ship s = this.fleet.findShip(nme); 
+        Ship s = this.fleet.findShip(nme,this.fleet.reserve()); 
         if(s != null) // In reserve to be commissioned
         {
             if(this.warChest - s.getCommissionFee() >= 0) // enough money check
             {
-                this.fleet.commission(s);// commission the ship to squadron
-                return "Ship comissioned";
+                this.fleet.shipActivate(s);// commission the ship to squadron
+                this.warChest -= s.getCommissionFee();
+                return "Ship commissioned";
             }
             return "Not enough money";
         }
-        else if(this.fleet.findShip(nme) == null)//check if not in reserve but still in the list
+        else if(this.fleet.findShip(nme) != null)//check if not in reserve but still in the list
         {
             return "Not available"; // not within reserve for whatever reason 
         }
@@ -219,7 +220,9 @@ public class SeaBattles implements BATHS
     {
         if(this.isInSquadron(nme) == true)
         {
-            this.fleet.decommission(this.fleet.findShip(nme));
+            Ship s = this.fleet.findShip(nme);
+            this.fleet.decommission(s);
+            this.warChest += (s.getCommissionFee() / 2);
             return true;
         }
         return false;
@@ -231,9 +234,9 @@ public class SeaBattles implements BATHS
      */
     public void restoreShip(String ref)
     {
-        if(this.isInSquadron(ref) == true)
+        if(this.fleet.findShip(ref) != null)
         {
-            this.fleet.restoreRestingShip(this.fleet.findShip(ref));
+            this.fleet.shipActivate(this.fleet.findShip(ref));
         }
         
     }
@@ -279,7 +282,7 @@ public class SeaBattles implements BATHS
            {
                if(s.canFight(e.getType()))
                {
-                   if(s.getBattleSkill() > e.getReqSkill())
+                   if(s.getBattleSkill() >= e.getReqSkill())
                    {
                        this.warChest += e.getPrizeMoney();
                        s.shipRest();
@@ -298,7 +301,7 @@ public class SeaBattles implements BATHS
                return "You have been defeated" +  "\n" + "Warchest is now: " + this.warChest;
            }
            this.warChest -= e.getPrizeMoney();
-           return "No ship available to fight encounter" + "\n" + "Warchest is now: " + this.warChest;
+           return "no ship available to fight encounter" + "\n" + "Warchest is now: " + this.warChest;
        }
        
        return "No such encounter";
@@ -338,7 +341,7 @@ public class SeaBattles implements BATHS
      private void setupShips()
      {
        ManOWar Victory = new ManOWar("Victory","Alan Aikin",3, 3, 30, 0, false); 
-       Frigate Sophie = new Frigate("Sophie","Beg Baggins",8,0,0,16,true);
+       Frigate Sophie = new Frigate("Sophie","Ben Baggins",8,0,0,16,true);
        ManOWar Endeavour = new ManOWar("Endeavour","Col Cannon",4,2,20,0,false);
        Sloop Arrow = new Sloop("Arrow","Dan Dare",150,0,0,0,true);
        ManOWar Belerophon = new ManOWar("Belerophon","Ed Evans",8,3,50,0,false);

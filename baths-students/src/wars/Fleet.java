@@ -43,32 +43,32 @@ public class Fleet
     
     public ArrayList<Ship> squadron()
     {
-        return ships.getFiltered(ship -> ship.getState() == ShipState.ACTIVE || ship.getState() == ShipState.RESTING);
-    }
-    
-    public void commission(Ship s)
-    {
-        //this.reserve().remove(s);
-        //this.squadron().add(s);
-        s.activateShip();
+        return ships.getFiltered(ship -> ship.getState() == ShipState.ACTIVE);
     }
     
     public void decommission(Ship s)
     {
-        //this.squadron().remove(s);
-        s.decommissionShip();
-        //this.reserve().add(s);
+        if(s.state != ShipState.SUNK)
+        {
+            s.decommissionShip();
+        }
 
     }
     
     public void restShip(Ship s)
     {
-        s.shipRest();
+        if(s.state != ShipState.SUNK)
+        {
+            s.shipRest();
+        }
     }
     
-    public void restoreRestingShip(Ship s)
+    public void shipActivate(Ship s)
     {
-        s.activateShip();
+        if(s.state != ShipState.SUNK)
+        {
+            s.activateShip();
+        }
     }
     
     public Ship findShip(String name)

@@ -69,7 +69,7 @@ public class GameUI
                 System.out.println("Enter Ship name to decommission");
                 myIn.nextLine();
                 String ref = (myIn.nextLine()).trim();
-                System.out.println(myBattles.commissionShip(ref));
+                System.out.println("Decommission status: " + myBattles.decommissionShip(ref));
             }
             else if (choice==8)
             {
