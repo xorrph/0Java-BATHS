@@ -12,8 +12,6 @@ import java.io.*;
 
 public class SeaBattles implements BATHS 
 {
-    // may have one HashMap and select on stat
-
     private String admiral;
     private String filename;
     private Fleet fleet;
@@ -28,6 +26,7 @@ public class SeaBattles implements BATHS
     public SeaBattles(String adm)
     {
        this.admiral = adm;
+       this.warChest = 1000;
        setupShips();
        setupEncounters();
     }
@@ -41,10 +40,10 @@ public class SeaBattles implements BATHS
     {
       
        this.filename = filename;
+       this.warChest = 1000;
        setupShips();
-       // setupEncounters();
-       // uncomment for testing Task 
-       // readEncounters(filename);
+       //setupEncounters();
+       readEncounters(filename);
     }
     
     
@@ -92,10 +91,10 @@ public class SeaBattles implements BATHS
      **/
     public String getReserveFleet()
     {   
-        String str = "";
+        String str = "Reserve Ships \n";
         for (Ship s: this.fleet.reserve())
         {
-                str = str +  "Reserve Ships\n" + s.toString()+ "\n";
+                str = str + s.toString()+ "\n";
         }
         if (this.fleet.reserve().size() > 0)
         {
@@ -110,10 +109,10 @@ public class SeaBattles implements BATHS
      **/
     public String getSquadron()
     {
-        String str = "";
+        String str = "Squadron Ships \n";
         for (Ship s: this.fleet.squadron())
         {
-                str = str + "Squadron Ships\n" + s.toString()+ "\n";
+                str = str + s.toString()+ "\n";
         }
         if (this.fleet.squadron().size() > 0)
         {
@@ -127,10 +126,10 @@ public class SeaBattles implements BATHS
      **/
     public String getSunkShips()
     {
-        String str = "";
+        String str = "Sunk Ships \n";
         for (Ship s: this.fleet.sunkShips())
         {
-                str = str + "Sunk Ships\n" + s.toString()+ "\n";
+                str = str + s.toString()+ "\n";
         }
         if (this.fleet.sunkShips().size() > 0)
         {
@@ -279,7 +278,7 @@ public class SeaBattles implements BATHS
                    {
                        this.warChest += e.getPrizeMoney();
                        s.shipRest();
-                       return "Encounter won by" + s.getName() + "led by " + s.getCaptain() +"\n" + "Warchest is now: " + this.warChest;
+                       return "Encounter won by " + s.getName() + " led by " + s.getCaptain() +"\n" + "Warchest is now: " + this.warChest;
                    }
                    else
                    {
@@ -323,7 +322,7 @@ public class SeaBattles implements BATHS
     {
         if(enc.getSize() > 0)
         {
-            enc.toString();
+            return enc.toString();
         }
         return "No encounters";
     }
@@ -359,20 +358,32 @@ public class SeaBattles implements BATHS
         Encounter e8 = new Encounter(8,EncounterType.BATTLE,"Finisterre",4,100);
         Encounter e9 = new Encounter(9,EncounterType.SKIRMISH,"Biscay",5,200);
         Encounter e10 = new Encounter(10,EncounterType.BATTLE,"Cadiz",1,250);
-        HashMap<Integer, Encounter> encountersMap = new HashMap<>(Map.ofEntries(
-            Map.entry(1, e1),
-            Map.entry(2, e2),
-            Map.entry(3, e3),
-            Map.entry(4, e4),
-            Map.entry(5, e5),
-            Map.entry(6, e6),
-            Map.entry(7, e7),
-            Map.entry(8, e8),
-            Map.entry(9, e9),
-            Map.entry(10, e10)
-        ));
-        Encounters e = new Encounters(encountersMap);
+        Encounters e = new Encounters();
+        e.encounterFound(e1);
+        e.encounterFound(e2);
+        e.encounterFound(e3);
+        e.encounterFound(e4);
+        e.encounterFound(e5);
+        e.encounterFound(e6);
+        e.encounterFound(e7);
+        e.encounterFound(e8);
+        e.encounterFound(e9);
+        e.encounterFound(e10);
+        System.out.println("Encounters initialised");
         this.enc = e;
+    }
+    
+    /** Provides an EncounterType object from a string
+     * @param type string text of the encounter type
+     * @return returns  an EncounterType object from a string
+     **/
+    private EncounterType getEncounterType(String type)
+    {
+        HashMap<String,EncounterType> encTypes = new HashMap<String,EncounterType>();
+        encTypes.put("Battle",EncounterType.BATTLE);
+        encTypes.put("Skirmish",EncounterType.SKIRMISH);
+        encTypes.put("Blockade",EncounterType.BLOCKADE);
+        return encTypes.get(type);
     }
 // Useful private methods to "get" objects from collections/maps
 
@@ -389,8 +400,22 @@ public class SeaBattles implements BATHS
      */
     public void readEncounters(String filename)
     { 
-      
-        
+        this.enc = new Encounters();
+        try(BufferedReader reader = new BufferedReader(new FileReader(filename)))
+        {
+            String line;
+            int i = 0;
+            while((line = reader.readLine()) != null)
+            {
+               String[] s = line.split("[,]",0);
+               this.enc.encounterFound(new Encounter(i,this.getEncounterType(s[0]),s[1],Integer.parseInt(s[2]),Integer.parseInt(s[3])));
+               i++;
+            }
+        }
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
         
     }   
  
@@ -401,7 +426,15 @@ public class SeaBattles implements BATHS
      */
     public void saveGame(String fname)
     {   // uses object serialisation 
-           
+        try (ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(fname))) 
+        {
+            oos.writeObject(this);
+            //System.out.println("Serialized: " + this);
+        } 
+        catch (IOException e)
+        {
+            e.printStackTrace();
+        }
     }
     
     /** reads all information about the game from the specified file 
@@ -410,9 +443,17 @@ public class SeaBattles implements BATHS
      * @return the game (as an SeaBattles object)
      */
     public SeaBattles loadGame(String fname)
-    {   // uses object serialisation 
-       
-        return null;
+    {   // uses object deserialisation 
+        SeaBattles loaded = null;
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fname))) 
+        {
+            loaded = (SeaBattles) ois.readObject();
+            //System.out.println("Deserialized: " + loaded);
+        } catch (IOException | ClassNotFoundException e) 
+        {
+            e.printStackTrace();
+        }
+        return loaded;
     } 
     
  

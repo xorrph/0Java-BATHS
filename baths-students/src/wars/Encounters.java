@@ -14,35 +14,30 @@ public class Encounters
 
     public Encounters()
     {
-        this.encounters = new HashMap<Integer,Encounter>();
+        this.encounters = new HashMap<Integer,Encounter>(); //creating a blank HashMap to add to
     }
     
-    public Encounters(HashMap<Integer,Encounter> es)
-    {
-        this.encounters = es;
-    }
-    
-    public void encounterFound(Encounter e)
+    public void encounterFound(Encounter e) // check if Encounter exists
     {
         this.encounters.put(e.getEncounterNo(),e);
     }
         
-    public int getSize()
+    public int getSize() //get the size of the hashmap
     {
         return this.encounters.size();
     }
     
-    public void encounterFinished(Encounter e)
+    public void encounterFinished(Encounter e) //remove encounter from the hashMap
     {
         this.encounters.remove(e.getEncounterNo());
     }
     
-    public Encounter findEncounter(int id)
+    public Encounter findEncounter(int id) //retrieve object encounter from id (return null if not found)
     {
         return this.encounters.get(id);
     }
     
-    public String showAllEncounters()
+    public String toString() //Return String representation of all encounters
     {
         String str = "";
         for (int i: this.encounters.keySet())//keyset turns into a list of keys

@@ -50,7 +50,7 @@ public class Fleet
     {
         //this.reserve().remove(s);
         //this.squadron().add(s);
-        s.commissionShip();
+        s.activateShip();
     }
     
     public void decommission(Ship s)
@@ -68,7 +68,7 @@ public class Fleet
     
     public void restoreRestingShip(Ship s)
     {
-        s.restoreShip();
+        s.activateShip();
     }
     
     public Ship findShip(String name)
