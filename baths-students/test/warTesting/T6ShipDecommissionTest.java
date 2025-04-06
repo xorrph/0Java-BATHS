@@ -28,7 +28,7 @@ public class T6ShipDecommissionTest {
     
     @Before
     public void setUp() {
-        game = new SeaBattles("Ola");
+        game = new SeaBattles("Olenka");
         game.commissionShip("Victory");
         game.commissionShip("Surprise");
         game.commissionShip("Arrow");
@@ -91,12 +91,9 @@ public class T6ShipDecommissionTest {
     @Test
     public void decommissionShipNotInSquadronFalse(){
         game.decommissionShip("Paris");
-        boolean actual = game.decommissionShip("Paris");;
+        boolean actual = game.decommissionShip("Paris");
         assertFalse(actual);
     }    
-     
-     
-   
     
     @Test
     public void decommissionNoSuchShip(){
