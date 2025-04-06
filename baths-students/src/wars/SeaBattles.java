@@ -465,23 +465,18 @@ public class SeaBattles implements BATHS
      * @return the game (as an SeaBattles object)
      */
     public SeaBattles loadGame(String fname)
-    {   // uses object deserialisation 
-        SeaBattles loaded = null;
-        System.out.println("beforeTEST");
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(fname))) 
+    {   // uses object serialisation
+        try (ObjectInputStream oInS = new ObjectInputStream(new FileInputStream(fname))) 
         {
-            System.out.println("TEST");
-            loaded = (SeaBattles) ois.readObject();
-            System.out.println("Deserialized: " + loaded);
+            return (SeaBattles) oInS.readObject();
         } 
         catch (IOException | ClassNotFoundException e) 
         {
-            System.out.println("TESTFAIL");
             e.printStackTrace();
         }
-        return loaded;
-    } 
-    
+        return null;
+    }
+   
     
 }
 
