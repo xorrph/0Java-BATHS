@@ -335,7 +335,7 @@ public class T5FightEncounterTest {
     public void sloopFacingBattleWinsMoney(){
         double expected = 900;
         game.commissionShip("Beast"); //Warchest 600
-        game.fightEncounter(1);//wins
+        game.fightEncounter(1);//wins + 300
         double actual = game.getWarChest();
         assertEquals(expected, actual,0.5);
     }    
@@ -345,7 +345,7 @@ public class T5FightEncounterTest {
     @Test
     public void sloopFacingBattleLosesOnSkill(){
         game.commissionShip("Beast");
-        String actual = game.fightEncounter(4); //loses
+        String actual = game.fightEncounter(4); //loses 
         assertTrue(actual.contains("lost on battle skill"));
     }   
     
@@ -354,7 +354,7 @@ public class T5FightEncounterTest {
 
         double expected = 400;
         game.commissionShip("Beast"); //warchest= 600
-        game.fightEncounter(4); //loses
+        game.fightEncounter(4); //loses - 200
         double actual = game.getWarChest();
         assertEquals(expected, actual,0.5);
     }
@@ -364,7 +364,7 @@ public class T5FightEncounterTest {
     public void sloopFacingBattleOnSunkList() {
         game.commissionShip("Beast");
         game.fightEncounter(4);//loses
-        String actual= game.getSunkShips();
+        String actual = game.getSunkShips();
         assertTrue(actual.contains("Beast"));
     }
 
@@ -394,9 +394,9 @@ public class T5FightEncounterTest {
     
     @Test
     public void sloopFacingSkirmishLosesMoney(){
-        double expected = 480;
+        double expected = 555;
         game.commissionShip("Beast"); //Warchest 600
-        game.fightEncounter(2); //loses -120\
+        game.fightEncounter(6); //loses -120\
         double actual = game.getWarChest(); //Checks if it has lost money
         assertEquals(expected, actual,0.5);
     }
@@ -404,7 +404,7 @@ public class T5FightEncounterTest {
     @Test
     public void sloopFacingSkirmishOnSunkList(){
         game.commissionShip("Beast");
-        game.fightEncounter(2);//loses
+        game.fightEncounter(6);//loses
         String actual= game.getSunkShips();
         assertTrue(actual.contains("Beast")); //Checks if it has sunk
     }
@@ -433,5 +433,36 @@ public class T5FightEncounterTest {
         assertEquals(expected, actual,0.5);
     } 
     
+   @Test
+   public void sloopFacingInEligableEncounter() {
+        game.commissionShip("Beast");
+        String actual = game.fightEncounter(3);//No such encounter
+        assertTrue(actual.contains("no ship available to fight encounter"));
+    } 
+    
+    @Test
+    public void sloopRestoredWhenNotInSquadron() {
+        //Beast not inSquadron
+        game.restoreShip("Beast");
+        assertFalse(game.isInSquadron("Beast")); 
+    }
+    
+    
+    @Test
+    public void sloopFacingBattleisSunkNotRestored() {
+        game.commissionShip("Beast"); //warchest= 600
+        game.fightEncounter(4);
+        game.restoreShip("Beast"); // can't restore as sunk
+        assertFalse(game.isInSquadron("Beast"));
+    }   
+    
+    @Test
+    public void sloopFacingInEligableEncounterMoney() {
+        game.commissionShip("Beast");//warchest = 600
+        game.fightEncounter(3);//No such encounter
+        double expected = 450;//just the same as the war chest
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    } 
     
 }
