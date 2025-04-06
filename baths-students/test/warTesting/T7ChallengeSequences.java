@@ -166,4 +166,5 @@ public class T7ChallengeSequences {
         
         assertTrue(actual.contains("no ship"));
     }
+    
 }

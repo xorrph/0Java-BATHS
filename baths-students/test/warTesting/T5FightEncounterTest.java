@@ -396,7 +396,7 @@ public class T5FightEncounterTest {
     public void sloopFacingSkirmishLosesMoney(){
         double expected = 555;
         game.commissionShip("Beast"); //Warchest 600
-        game.fightEncounter(6); //loses -120\
+        game.fightEncounter(6); //loses -120
         double actual = game.getWarChest(); //Checks if it has lost money
         assertEquals(expected, actual,0.5);
     }
@@ -434,7 +434,7 @@ public class T5FightEncounterTest {
     } 
     
    @Test
-   public void sloopFacingInEligableEncounter() {
+   public void sloopFacingIneligableEncounter() {
         game.commissionShip("Beast");
         String actual = game.fightEncounter(3);//No such encounter
         assertTrue(actual.contains("no ship available to fight encounter"));
@@ -457,6 +457,15 @@ public class T5FightEncounterTest {
     }   
     
     @Test
+    public void sloopFacingBattleRestored(){
+        game.commissionShip("Beast"); //warchest= 600
+        game.fightEncounter(8);//Loses
+        game.restoreShip("Beast"); // can't restore as sunk
+        assertTrue(game.isInSquadron("Beast"));
+    }
+    
+    
+    @Test
     public void sloopFacingInEligableEncounterMoney() {
         game.commissionShip("Beast");//warchest = 600
         game.fightEncounter(3);//No such encounter
@@ -465,4 +474,37 @@ public class T5FightEncounterTest {
         assertEquals(expected, actual,0.5);
     } 
     
+    @Test
+    public void userDeath(){
+        game.fightEncounter(1);//-300
+        game.fightEncounter(1);//-300
+        game.fightEncounter(1);//-300
+        String actual = game.fightEncounter(1); //should return defeated included in the string
+        assertTrue(actual.contains("defeated"));
+    }
+    
+    @Test
+    public void userDeathMoney(){
+        game.fightEncounter(1);//-300
+        game.fightEncounter(1);//-300
+        game.fightEncounter(1);//-300
+        game.fightEncounter(1);//-300
+        double expected = -200;
+        double actual = game.getWarChest();
+        assertEquals(expected,actual,0.5);
+    }
+    
+    @Test
+    public void frigateFacingIneligableEncounter() {
+        game.commissionShip("Surprise");
+        String actual = game.fightEncounter(3);//No such encounter
+        assertTrue(actual.contains("no ship available to fight encounter"));
+    }
+    
+    @Test
+    public void manOWarFacingIneligableEncounter() {
+        game.commissionShip("Victory");
+        String actual = game.fightEncounter(2);//No such encounter
+        assertTrue(actual.contains("no ship available to fight encounter"));
+    }
 }
