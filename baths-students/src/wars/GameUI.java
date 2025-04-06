@@ -83,8 +83,8 @@ public class GameUI
             else if (choice == 10) // Task 7 only
             {
                 System.out.println("Recommission from file");
-                SeaBattles myBattles2=null;
-                myBattles2.loadGame("olenka.dat");
+                SeaBattles myBattles2= new SeaBattles("temp");
+                myBattles2 = myBattles2.loadGame("olenka.dat");
                 System.out.println(myBattles2.toString());               
             }  
         }

@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wars;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -13,59 +14,20 @@ import java.util.HashMap;
 /**
  * Represents a ship in the game.
  */
-public abstract class Ship 
+public abstract class Ship implements Serializable 
 {
-
-    /** Enum class for the ship's state
-    */
     ShipState state;
-    
-    /** How much the ship costs as an int
-    */
     int commissionFee;
-    
-    /** Name of the ship in a String
-    */
     String name;
-    
-    /** Captain of the ship in a String
-    */
     String Captain;
-    
-    /** Battle skill of the ship as an int
-    */
     int battleSkill;
-    
-    /** How many decks in the ship as an int
-    */
     int decks;
-    
-    /** How many marines are carried in the ship as an int
-    */
     int marines;
-    
-    /** Amount of cannons on the ship as an int
-    */
     int cannons;
-    
-    /** The type of ship (this will be an override attribute)
-    */
     String type;
-    
-    /** If the ship has a doctor or pinnace as a boolean
-    */
     boolean ifDocPin;
-    
-    /** If the ship can fight in a blockade encounter as a boolean
-    */
     boolean blockade = false;
-    
-    /** If the ship can fight in a skirmish encounter as a boolean
-    */
     boolean skirmish = false;
-    
-    /** If the ship can fight in a battle encounter as a boolean
-    */
     boolean battle;
     
     /** HashMap pairing the types of encounters the ships will face and if they
