@@ -8,12 +8,14 @@ package wars;
  *
  * @author nagli
  */
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.function.Predicate;
 
-class FilteredList<T> {
+class FilteredList<T> implements Serializable 
+{
     private ArrayList<T> sourceList;
 
     public FilteredList() 

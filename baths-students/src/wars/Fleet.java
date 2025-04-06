@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wars;
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  *
  * @author nagli
  */
-public class Fleet 
+public class Fleet implements Serializable 
 {
     private ArrayList<Ship> squadron;
     private ArrayList<Ship> reserve;

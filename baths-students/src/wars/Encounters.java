@@ -3,12 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wars;
+import java.io.Serializable;
 import java.util.HashMap;
 /**
  *
  * @author nagli
  */
-public class Encounters
+public class Encounters implements Serializable 
 {
     private HashMap<Integer,Encounter> encounters;
 

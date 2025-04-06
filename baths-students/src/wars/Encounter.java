@@ -4,11 +4,13 @@
  */
 package wars;
 
+import java.io.Serializable;
+
 /**
  *
  * @author nagli
  */
-public class Encounter
+public class Encounter implements Serializable 
 {
     private int encounterNo;
     private EncounterType type;

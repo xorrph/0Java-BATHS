@@ -3,6 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wars;
+import java.io.Serializable;
 import java.util.HashMap;
 
 /**
@@ -13,7 +14,7 @@ import java.util.HashMap;
 /**
  * Represents a ship in the game.
  */
-public abstract class Ship 
+public abstract class Ship implements Serializable 
 {
 
     /** Enum class for the ship's state
