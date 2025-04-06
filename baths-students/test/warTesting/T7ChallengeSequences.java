@@ -64,7 +64,7 @@ public class T7ChallengeSequences {
         assertEquals(expected,actual,0.5);
     }
 
-@Test
+    @Test
     public void frigateWithdrawnBeforeBattleMoney() {
         double expected = 1000 - 160 + 80 - 300;
         game.commissionShip("Sophie");
@@ -78,8 +78,7 @@ public class T7ChallengeSequences {
     public void frigateWithdrawnBeforeBattle() {
         game.commissionShip("Sophie");
         game.decommissionShip("Sophie");
-        String actual =game.fightEncounter(1);
-        
+        String actual = game.fightEncounter(1);
         assertTrue(actual.contains("no ship"));
     }
  
@@ -130,9 +129,41 @@ public class T7ChallengeSequences {
 
     
 // Add your own tests
+    //Extended tests
     @Test
-    public void {
+    public void sloopSunkUsedAgain(){
+        game.commissionShip("Beast");
+        game.fightEncounter(6);  //should be sunk
+        String actual = game.fightEncounter(6); //re-used ?
+        assertTrue(actual.contains("no ship"));
+    }
     
-}
-
+    @Test
+    public void sloopSunkUsedAgainMoney(){
+        double expected = 1000 - 400 - 200 -200;
+        game.commissionShip("Beast");
+        game.fightEncounter(4);  //should be sunk
+        game.fightEncounter(4); //re-used ?
+        double actual = game.getWarChest();
+        assertEquals(expected,actual,0.5);
+    }
+    
+    @Test
+    public void sloopWithdrawnBeforeBattleMoney() {
+        double expected = 1000 - 400 + 200 - 300;
+        game.commissionShip("Beast");
+        game.decommissionShip("Beast");
+        game.fightEncounter(1);
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    }
+    
+    @Test
+    public void sloopWithdrawnBeforeBattle() {
+        game.commissionShip("Beast");
+        game.decommissionShip("Beast");
+        String actual = game.fightEncounter(1);
+        
+        assertTrue(actual.contains("no ship"));
+    }
 }

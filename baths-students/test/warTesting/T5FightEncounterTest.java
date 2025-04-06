@@ -413,17 +413,25 @@ public class T5FightEncounterTest {
     @Test
     public void sloopFacingSkirmishEqualSkillWins(){
         game.commissionShip("Beast");
-        String actual = game.fightEncounter(9); //loses
+        String actual = game.fightEncounter(9); //equal on skill
         assertTrue(actual.contains("won"));
     }
     
     @Test
     public void sloopFacingNoSuchEncounter() {
         game.commissionShip("Beast");
-        String actual = game.fightEncounter(20);
+        String actual = game.fightEncounter(20);//No such encounter
         assertTrue(actual.contains("No such"));
     } 
     
-    //@Test
-    //public void s
+    @Test
+    public void sloopFacingNoSuchEncounterNoDeduction() {
+        game.commissionShip("Beast"); //war chest 600
+        game.fightEncounter(20);//No such enounter
+        double expected = 600;//just the same as the war chest
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    } 
+    
+    
 }
