@@ -3,33 +3,44 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package wars;
+import java.io.Serializable;
 import java.util.ArrayList;
 /**
  *
  * @author nagli
  */
-public class Fleet 
+public class Fleet implements Serializable 
 {
-    private ArrayList<Ship> squadron;
-    private ArrayList<Ship> reserve;
     private FilteredList<Ship> ships;
-    private int size;
-     
-    public Fleet()//baIn
+    
+     /**Constructor for the fleet, initialises a FilteredList called ships which
+     *  containing all the ships
+     */ 
+    public Fleet()
     {
         this.ships =  new FilteredList<Ship>();
     }
     
+     /**Constructor for the fleet, initialises a FilteredList called ships which
+     *  containing all the ships
+     *  @param ss pass in a list to initialise Fleet without being empty and adding each item one by one
+     */ 
     public Fleet(ArrayList<Ship> ss)
     {
         this.ships =  new FilteredList<Ship>(ss);
     }
     
+     /**Method for returning an ArrayList version of all the ships
+     * @return an ArrayList of all the ships inside of the ships attribute
+     */ 
     public ArrayList<Ship> allShips()
     {
         return ships.getAll();
     }
     
+    /**returns an ArrayList of all Ships in sunk state
+    * @returns an ArrayList of all Ships in sunk state
+    */
     public ArrayList<Ship> sunkShips()
     {
         return ships.getFiltered(ship -> ship.getState() == ShipState.SUNK);
@@ -38,7 +49,6 @@ public class Fleet
     /**returns an ArrayList of all Ships in reserve state
     * @returns an ArrayList of all Ships in reserve state
     */
-
     public ArrayList<Ship> reserve()
     {
         return ships.getFiltered(ship -> ship.getState() == ShipState.RESERVE);
@@ -52,6 +62,9 @@ public class Fleet
         return ships.getFiltered(ship -> ship.getState() == ShipState.ACTIVE);
     }
     
+    /**Sets a specific ship to a RESERVE state
+     * @param s the ship to be decommissioned
+    */
     public void decommission(Ship s)
     {
         if(s.state != ShipState.SUNK)
@@ -61,6 +74,9 @@ public class Fleet
 
     }
     
+    /**Sets a specific ship to a RESTING state
+     * @param s the ship to rest
+    */
     public void restShip(Ship s)
     {
         if(s.state != ShipState.SUNK)
@@ -69,6 +85,9 @@ public class Fleet
         }
     }
     
+    /**Sets a specific ship to a ACTIVE state
+     * @param s the ship to be commissioned or restored
+    */
     public void shipActivate(Ship s)
     {
         if(s.state != ShipState.SUNK)
@@ -77,6 +96,10 @@ public class Fleet
         }
     }
     
+    /**Finds and returns the ship object with a the matching name out of every Ship ever
+     * @param name the ship to be decommissioned
+     * @return the Ship object found by its name
+    */
     public Ship findShip(String name)
     {
         for (Ship s: this.ships.getAll())
@@ -89,6 +112,11 @@ public class Fleet
         return null;
     }
     
+    /**Finds and returns the ship object with a the matching name out of a sublist
+     * @param name the ship to be decommissioned
+     * @param managingFleet the sublist of ships to search through
+     * @return the Ship object found by its name
+    */
     public Ship findShip(String name, ArrayList<Ship> managingFleet)
     {
         for (Ship s: managingFleet)
@@ -101,6 +129,9 @@ public class Fleet
         return null;
     }
     
+    /**Finds and returns the ship object with a the matching name out of every Ship ever
+     * @return all Ship details included within the ships attribute
+    */
     public String toString()
     {
         String str = "";
