@@ -234,9 +234,13 @@ public class SeaBattles implements BATHS
      */
     public void restoreShip(String ref)
     {
-        if(this.fleet.findShip(ref) != null && this.fleet.findShip(ref,this.fleet.reserve()) == null)
+        Ship s = this.fleet.findShip(ref);
+        if(s != null)
         {
-            this.fleet.shipActivate(this.fleet.findShip(ref));
+            if(s.getState() == ShipState.RESTING)
+            {
+                this.fleet.shipActivate(this.fleet.findShip(ref));
+            }
         }
         
     }
