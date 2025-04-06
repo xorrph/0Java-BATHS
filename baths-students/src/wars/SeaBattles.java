@@ -296,16 +296,26 @@ public class SeaBattles implements BATHS
                    {
                        this.warChest -= e.getPrizeMoney();
                        s.shipSunk();
-                       return "Encounter lost on battle skill and" + s.getName() + "sunk"+"\n" + "Warchest is now: " + this.warChest;
+                       if(this.isDefeated() == true)
+                       {
+                            return "You have been defeated" +  "\n" + "Warchest is now: " + this.warChest;
+                       }
+                       else
+                       {
+                           return "Encounter lost on battle skill and " + s.getName() + " sunk "+"\n" + "Warchest is now: " + this.warChest;
+                       }
                    }
                }
            }
+           this.warChest -= e.getPrizeMoney();
            if(this.isDefeated() == true)
            {
                return "You have been defeated" +  "\n" + "Warchest is now: " + this.warChest;
            }
-           this.warChest -= e.getPrizeMoney();
-           return "no ship available to fight encounter" + "\n" + "Warchest is now: " + this.warChest;
+           else
+           {
+               return "no ship available to fight encounter" + "\n" + "Warchest is now: " + this.warChest;
+           }
        }
        
        return "No such encounter";
