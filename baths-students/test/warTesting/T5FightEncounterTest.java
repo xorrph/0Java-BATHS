@@ -239,7 +239,7 @@ public class T5FightEncounterTest {
     
     @Test
     public void manOWarFacingNoSuchEncounterNoDeduction() {
-        game.commissionShip("Victory"); //war chaest 5--
+        game.commissionShip("Victory"); //war chest 5--
         game.fightEncounter(20);
         double expected = 500;
         double actual = game.getWarChest();
@@ -322,8 +322,116 @@ public class T5FightEncounterTest {
  
 //    //Sloop - write your own tests
 //    
-  
     
-    
+    //Team CS21 additional tests
+    @Test
+    public void sloopFacingBattleWins(){
+        game.commissionShip("Beast");
+        String actual = game.fightEncounter(1);//wins
+        assertTrue(actual.contains("won"));
+    }
 
+    @Test
+    public void sloopFacingBattleWinsMoney(){
+        double expected = 900;
+        game.commissionShip("Beast"); //Warchest 600
+        game.fightEncounter(1);//wins
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    }    
+    
+    //There are no ships that can equal the level of the battle skill for a battle for a Sloop ship
+    
+    @Test
+    public void sloopFacingBattleLosesOnSkill(){
+        game.commissionShip("Beast");
+        String actual = game.fightEncounter(4); //loses
+        assertTrue(actual.contains("lost on battle skill"));
+    }   
+    
+    @Test
+    public void sloopFacingBattleLostOnSkillLosesMoney() {
+
+        double expected = 400;
+        game.commissionShip("Beast"); //warchest= 600
+        game.fightEncounter(4); //loses
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    }
+    
+    
+    @Test
+    public void sloopFacingBattleOnSunkList() {
+        game.commissionShip("Beast");
+        game.fightEncounter(4);//loses
+        String actual= game.getSunkShips();
+        assertTrue(actual.contains("Beast"));
+    }
+
+    @Test
+    public void sloopFacingSkirmishWins() {
+        
+        game.commissionShip("Beast"); //warchest = 600
+        String actual = game.fightEncounter(2);//wins
+        assertTrue(actual.contains("won"));
+    }
+    
+    @Test
+    public void sloopFacingSkirmishWinsMoney(){
+        double expected = 720;
+        game.commissionShip("Beast"); //Warchest 600
+        game.fightEncounter(2);
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    }    
+    
+    @Test
+    public void sloopFacingSkirmishCantWin(){
+        game.commissionShip("Beast");
+        String actual = game.fightEncounter(4); //loses
+        assertTrue(actual.contains("lost on battle skill")); //Check to see if they have lost
+    }
+    
+    @Test
+    public void sloopFacingSkirmishLosesMoney(){
+        double expected = 480;
+        game.commissionShip("Beast"); //Warchest 600
+        game.fightEncounter(2); //loses -120\
+        double actual = game.getWarChest(); //Checks if it has lost money
+        assertEquals(expected, actual,0.5);
+    }
+    
+    @Test
+    public void sloopFacingSkirmishOnSunkList(){
+        game.commissionShip("Beast");
+        game.fightEncounter(2);//loses
+        String actual= game.getSunkShips();
+        assertTrue(actual.contains("Beast")); //Checks if it has sunk
+    }
+    
+    
+    @Test
+    public void sloopFacingSkirmishEqualSkillWins(){
+        game.commissionShip("Beast");
+        String actual = game.fightEncounter(9); //equal on skill
+        assertTrue(actual.contains("won"));
+    }
+    
+    @Test
+    public void sloopFacingNoSuchEncounter() {
+        game.commissionShip("Beast");
+        String actual = game.fightEncounter(20);//No such encounter
+        assertTrue(actual.contains("No such"));
+    } 
+    
+    @Test
+    public void sloopFacingNoSuchEncounterNoDeduction() {
+        game.commissionShip("Beast"); //war chest 600
+        game.fightEncounter(20);//No such enounter
+        double expected = 600;//just the same as the war chest
+        double actual = game.getWarChest();
+        assertEquals(expected, actual,0.5);
+    } 
+    
+    
 }

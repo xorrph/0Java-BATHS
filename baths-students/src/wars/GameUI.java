@@ -56,7 +56,7 @@ public class GameUI
        
                   
             }
-            else if (choice ==6)
+            else if (choice == 6)
             {
 	        System.out.println("Enter Ship name to restore");
                 myIn.nextLine();
@@ -71,7 +71,7 @@ public class GameUI
                 String ref = (myIn.nextLine()).trim();
                 System.out.println("Decommission status: " + myBattles.decommissionShip(ref));
             }
-            else if (choice==8)
+            else if (choice == 8)
             {
                 System.out.println(myBattles.toString());
             }
