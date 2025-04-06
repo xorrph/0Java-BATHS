@@ -36,7 +36,7 @@ public class Sloop extends Ship
     @Override
     public void setNavyRules()
     {
-        this.blockade = true;   
+        this.skirmish = true;   
     }
     
     /** Sets the ships commission fee
